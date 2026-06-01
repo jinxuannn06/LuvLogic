@@ -1,63 +1,69 @@
 # LuvLogic
-⚙️ Engineering Installation & Local Setup
+## ⚙️ Engineering Installation & Local Setup
+
 Deploy the system locally within an isolated virtual environment using the following steps:
 
 1. Clone the Source Repository
+```
 Bash
 git clone [https://github.com/your-username/DuoDevotion.git](https://github.com/your-username/DuoDevotion.git)
 cd DuoDevotion
+```
 2. Install Unified System Dependencies
 Ensure the machine learning processing array and the official Google AI packages are fully compiled:
-
+```
 Bash
 pip install -r requirements.txt
+```
 3. Establish the Local Secrets Ecosystem
 Streamlit relies on strict directory parameters for secret storage. Construct the hidden .streamlit directory and seed your credentials file:
-
+```
 Bash
 mkdir .streamlit
 touch .streamlit/secrets.toml
+```
 Open .streamlit/secrets.toml in your code editor and populate it with your private developer credentials:
-
+```
 Ini, TOML
 GEMINI_API_KEY = "AIzaSyYourActualGoogleAIStudioKeyHere"
+```
 4. Boot the Localhost Server
 Execute the runtime wrapper to initialize the platform locally:
-
+```
 Bash
 streamlit run app.py
-☁️ Cloud Deployment Protocol (Streamlit Community Cloud)
+```
+## ☁️ Cloud Deployment Protocol (Streamlit Community Cloud)
+
 When syncing changes from your local staging terminal to the public cloud via GitHub, adhere strictly to these protection and deployment sequences:
 
 1. Version Control Exposure Prevention
 To verify your custom credentials are never exposed on public branches, add the secrets folder to your root .gitignore configuration profile:
-
+```
 Plaintext
 .streamlit/secrets.toml
+```
 2. Configure Distributed Cloud Environment Variables
 Because .toml configuration properties are banned from GitHub synchronization, you must copy your access infrastructure into the Cloud dashboard manually:
 
-Navigate to your Streamlit Community Cloud Console.
+   1. Navigate to your Streamlit Community Cloud Console.
 
-Locate your active application link instance, click the overflow options ellipsis (...), and choose Settings.
+   2. Locate your active application link instance, click the overflow options ellipsis (...), and choose Settings.
 
-Select Secrets within the left-hand configuration panel.
+   3. Select Secrets within the left-hand configuration panel.
 
-Paste your exact production token dictionary schema inside the console frame:
+   4. Paste your exact production token dictionary schema inside the console frame:
+      ```
+      Ini, TOML
+      GEMINI_API_KEY = "AIzaSyYourActualGoogleAIStudioKeyHere"
+      ```
+   5. Click Save. Streamlit Cloud will parse this input automatically, resolve dependencies via requirements.txt, and initialize the live public environment.
 
-Ini, TOML
-GEMINI_API_KEY = "AIzaSyYourActualGoogleAIStudioKeyHere"
-Click Save. Streamlit Cloud will parse this input automatically, resolve dependencies via requirements.txt, and initialize the live public environment.
+## 📜 License
 
-📜 License
 Distributed under the MIT License. See LICENSE for more information.
 """
-
-with open("README.md", "w", encoding="utf-8") as f:
-f.write(comprehensive_readme)
-
-print("Comprehensive README generated successfully.")
-
+```
 Your production-ready README file has been generated and saved directly to your workspace. 
 [file-tag: code-generated-file-0-1780334816264033818]
 
@@ -113,55 +119,4 @@ The application accepts and translates user interaction records into predictive 
 ├── final_pipeline.pkl         # Serialized production machine learning model
 ├── requirements.txt           # Cloud deployment environment package manifesto
 └── README.md                  # System operation, technical specifications & guide
-⚙️ Engineering Installation & Local Setup
-Deploy the system locally within an isolated virtual environment using the following steps:
-
-1. Clone the Source Repository
-Bash
-git clone [https://github.com/your-username/DuoDevotion.git](https://github.com/your-username/DuoDevotion.git)
-cd DuoDevotion
-2. Install Unified System Dependencies
-Ensure the machine learning processing array and the official Google AI packages are fully compiled:
-
-Bash
-pip install -r requirements.txt
-3. Establish the Local Secrets Ecosystem
-Streamlit relies on strict directory parameters for secret storage. Construct the hidden .streamlit directory and seed your credentials file:
-
-Bash
-mkdir .streamlit
-touch .streamlit/secrets.toml
-Open .streamlit/secrets.toml in your code editor and populate it with your private developer credentials:
-
-Ini, TOML
-GEMINI_API_KEY = "AIzaSyYourActualGoogleAIStudioKeyHere"
-4. Boot the Localhost Server
-Execute the runtime wrapper to initialize the platform locally:
-
-Bash
-streamlit run app.py
-☁️ Cloud Deployment Protocol (Streamlit Community Cloud)
-When syncing changes from your local staging terminal to the public cloud via GitHub, adhere strictly to these protection and deployment sequences:
-
-1. Version Control Exposure Prevention
-To verify your custom credentials are never exposed on public branches, add the secrets folder to your root .gitignore configuration profile:
-
-Plaintext
-.streamlit/secrets.toml
-2. Configure Distributed Cloud Environment Variables
-Because .toml configuration properties are banned from GitHub synchronization, you must copy your access infrastructure into the Cloud dashboard manually:
-
-Navigate to your Streamlit Community Cloud Console.
-
-Locate your active application link instance, click the overflow options ellipsis (...), and choose Settings.
-
-Select Secrets within the left-hand configuration panel.
-
-Paste your exact production token dictionary schema inside the console frame:
-
-Ini, TOML
-GEMINI_API_KEY = "AIzaSyYourActualGoogleAIStudioKeyHere"
-Click Save. Streamlit Cloud will parse this input automatically, resolve dependencies via requirements.txt, and initialize the live public environment.
-
-📜 License
-Distributed under the MIT License. See LICENSE for more information.
+```
