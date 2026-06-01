@@ -1,0 +1,34 @@
+{
+  "match": {
+    "threshold": 0.4,
+    "metrics": {
+      "accuracy": 0.97,
+      "precision": 0.8976377952755905,
+      "recall": 0.957983193277311,
+      "f1": 0.926829268292683,
+      "roc_auc": 0.9922954628836982,
+      "pr_auc": 0.9635397486496351
+    }
+  },
+  "risk": {
+    "threshold": 0.1,
+    "metrics": {
+      "accuracy": 0.17833333333333334,
+      "precision": 0.17725752508361203,
+      "recall": 0.9906542056074766,
+      "f1": 0.300709219858156,
+      "roc_auc": 0.5297719474512331,
+      "pr_auc": 0.20347333759887132
+    }
+  },
+  "metadata": {
+    "n_models": 5,
+    "ensemble_method": "Soft Voting",
+    "targets": [
+      "match_degree",
+      "risk_degree"
+    ],
+    "feature_count": 38,
+    "data_note": "match_outcome retained in features. RF and XGB achieved perfect scores. Documented in report."
+  }
+}
