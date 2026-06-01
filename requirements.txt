@@ -1,9 +1,9 @@
-streamlit
+streamlit==1.35.0
 pandas
-numpy
+numpy==1.25.2
 joblib
 scikit-learn
 xgboost
 flaml
-tensorflow-cpu
-keras
+tensorflow-cpu==2.15.0
+keras==2.15.0
