@@ -1,6 +1,6 @@
 [theme]
-primaryColor = "#ff4b4b"
-backgroundColor = "#fff5f5"
-secondaryBackgroundColor = "#ffffff"
-textColor = "#31333f"
+primaryColor = "#e11d48"         # Passion Crimson (For active sliders and focus highlights)
+backgroundColor = "#fff1f2"      # Velvet Rosewater Cream (Main workspace canvas)
+secondaryBackgroundColor = "#1e1114" # Deep Dark Obsidian Velvet (For the sidebar)
+textColor = "#1e1114"            # Deep Plum Black (For crisp, readable text)
 font = "sans serif"
