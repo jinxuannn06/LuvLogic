@@ -2,6 +2,9 @@ import streamlit as st
 import joblib
 import numpy as np
 import pandas as pd
+import urllib.request
+import json
+import google.generativeai as genai
 
 # 1. Page Config
 st.set_page_config(
@@ -31,12 +34,12 @@ st.markdown("""
     
     /* PREMIUM SUCCESS ALERT FIX: Vibrant pastel green with reduced opacity glass effect */
     div[data-testid="stNotification"] {
-        background-color: rgba(34, 197, 94, 0.15) !important; /* Brighter emerald green at 15% opacity */
-        border: 1px solid rgba(34, 197, 94, 0.4) !important;  /* Soft glowing green border */
+        background-color: rgba(34, 197, 94, 0.15) !important;
+        border: 1px solid rgba(34, 197, 94, 0.4) !important;
         border-radius: 12px !important;
     }
     div[data-testid="stNotification"] p {
-        color: #4ade80 !important; /* Forces the text inside to a crisp, vibrant neon-mint green */
+        color: #4ade80 !important;
         font-weight: 600 !important;
     }
     
@@ -88,6 +91,53 @@ st.markdown("""
     </style>
     """, unsafe_allow_html=True)
 
+
+import google.generativeai as genai
+from google.api_core.client_options import ClientOptions
+import json
+
+# Helper Function: Calls Gemini to generate structured JSON advice and pro-tips
+def generate_ai_advice(score, risk, u1_engage, u2_swipe):
+    try:
+        api_key = st.secrets["GEMINI_API_KEY"]
+        client_options = ClientOptions(api_endpoint="generativelanguage.googleapis.com")
+        genai.configure(api_key=api_key, client_options=client_options)
+        
+        model = genai.GenerativeModel('gemini-2.5-flash')
+        
+        # 👑 THE STRATEGIC PROMPT FIX: Instructing Gemini to output a strict JSON layout
+        prompt = (
+            f"Analyze this relationship data: Compatibility Score is {score}%, Ghosting Risk is {risk}%, "
+            f"User 1 Engagement is {u1_engage}/10, and User 2 Right Swipe Ratio is {u2_swipe}.\n"
+            f"Respond ONLY with a valid JSON object matching this structure exact template, do not include any other markdown or text:\n"
+            f'{{"advice": "Write a brief 2-sentence analytical summary here.", "protip": "Write a practical, highly specific 1-sentence tip here."}}'
+        )
+        
+        response = model.generate_content(prompt)
+        raw_text = response.text.strip()
+        
+        # Strip away accidental markdown backticks if Gemini includes them
+        if raw_text.startswith("```json"):
+            raw_text = raw_text.replace("```json", "", 1).replace("```", "", 1).strip()
+        elif raw_text.startswith("```"):
+            raw_text = raw_text.replace("```", "", 2).strip()
+            
+        # Parse the perfect JSON keys directly
+        data = json.loads(raw_text)
+        return data.get("advice"), data.get("protip")
+            
+    except Exception as e:
+        # Informative console debugger statement
+        print(f"JSON PARSING SYSTEM NOTICE: {e}")
+        
+        # High-end safety fallbacks so user metrics always render gracefully
+        if score >= 65:
+            return ("Based on the final optimized framework, the duo shows strong alignment. User 2's engagement matches User 1's profile depth.", 
+                    "Keep the momentum going by setting up a concrete date plan within the next 48 hours.")
+        else:
+            return ("Based on the final optimized framework, the matching metrics show some divergence. Profile adjustments are recommended.", 
+                    "Try sending a message about a specific detail in their bio to reduce ghosting risk by an estimated 12%.")
+        
 # 🌟 Core Backend Stage: Load the real trained team pipeline
 @st.cache_resource
 def load_team_pipeline():
@@ -97,26 +147,31 @@ def load_team_pipeline():
     except Exception as e:
         class FallbackPipeline:
             def predict_proba(self, X):
-                import random
                 u1_val = X[0][0]
-                u2_swipe = X[0][6]
+                u2_swipe = X[0][4]  # Verified matching array index mapping
+                
+                # 👑 STABLE FIX: A deterministic formula without the random noise
                 score_base = 50 + (u1_val * 3) + (u2_swipe * 20)
-                score = min(max(int(score_base + random.randint(-5, 5)), 15), 98)
-                risk = 100 - score + random.randint(-5, 5)
+                score = min(max(int(score_base), 15), 98)
+                
+                # Clean mathematical inverse relationship 
+                risk = 100 - score
                 risk = min(max(risk, 5), 95)
+                
                 return [[risk / 100.0, score / 100.0]]
+                
             def predict(self, X):
                 return [1 if self.predict_proba(X)[0][1] >= 0.5 else 0]
+                
         return FallbackPipeline()
 
 final_pipeline = load_team_pipeline()
 
 # 3. Sidebar - App Overview & Quick Guide
 with st.sidebar:
-    # 💖 PERMANENT FIX: Pure vector SVG smooth red heart design that cannot break or be blocked!
     st.markdown("""
-        <div style="padding-top: 10px; margin-bottom: -10px;">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="70" height="70" fill="#ff4b4b">
+        <div style="padding-top: 15px; margin-bottom: -10px;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="75" height="75" fill="#f43f5e">
                 <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
             </svg>
         </div>
@@ -127,7 +182,6 @@ with st.sidebar:
     
     st.divider()
     
-    # Section 1: How to use the tool
     st.subheader("📖 Quick Start Guide")
     st.markdown("""
     1. **Adjust Profiles:** Use the main panel sliders to configure the attributes for **User 1** and **User 2**.
@@ -137,33 +191,28 @@ with st.sidebar:
     
     st.divider()
     
-    # Section 2: Model Specifications (Professional Metadata display)
     st.subheader("🔬 Model Specifications")
     st.markdown("""
     * **Engine:** FLAML Automated Ensemble Framework
     * **Calculations:** Multi-feature deep stacking pipeline
     * **Status:** Live & Integrated
     """)
-
-    st.divider()
-
     st.success("🤖 Core ML Brain Active")
 
+
 # ==========================================
-# 4. MAIN WORKSPACE PANEL (Single-Page Restructured)
+# 4. MAIN WORKSPACE PANEL (Single-Page Premium Design)
 # ==========================================
-st.title("DuoDevotion: Your Heartbeat Metrics")
+st.markdown("<h1 style='color: #1e1114; font-weight: 800;'>💖 DuoDevotion: Your Heartbeat Metrics</h1>", unsafe_allow_html=True)
 st.write("Determine the heartbeat of your connection.")
 
 st.divider()
 
-# Input Area - Standardized completely to Slider formats
 col1, col2 = st.columns(2)
 
 with col1:
-    st.markdown("### 👤 User 1 (Applicant)")
+    st.markdown("<h3 style='color: #e11d48; margin-top:0;'>👤 User 1 (Applicant)</h3>", unsafe_allow_html=True)
     
-    # 💡 ADDED: Explanation question mark button here for App Engagement Level!
     u1_usage = st.slider(
         "App Engagement Level", 
         1, 10, 5, 
@@ -178,7 +227,8 @@ with col1:
     u1_outcome = 0 if u1_outcome_str == "None" else (1 if u1_outcome_str == "Successful Date" else 2)
 
 with col2:
-    st.markdown("### 👤 User 2 (Partner)")
+    st.markdown("<h3 style='color: #e11d48; margin-top:0;'>👤 User 2 (Partner)</h3>", unsafe_allow_html=True)
+    
     u2_income_str = st.select_slider("Income Bracket Level", options=["Low", "Medium", "High", "Very High"], value="Medium", key="u2_ss1")
     u2_income = 0 if u2_income_str == "Low" else (1 if u2_income_str == "Medium" else (2 if u2_income_str == "High" else 3))
     
@@ -196,7 +246,6 @@ with col2:
 
 st.divider()
 
-# The Analysis Button
 if st.button("🚀 Run DuoDevotion Analysis"):
     if final_pipeline is not None:
         with st.spinner('AI is processing data through the pipeline...'):
@@ -217,21 +266,26 @@ if st.button("🚀 Run DuoDevotion Analysis"):
             
             st.balloons()
             
-            # Results Display
             res_col1, res_col2 = st.columns(2)
             with res_col1:
                 st.metric("Compatibility Score", f"{score}%")
             with res_col2:
-                st.metric("Ghosting Risk", f"{risk}%", delta="- Low" if risk < 35 else "+ High", delta_color="inverse")
+                st.metric("Ghosting Risk", f"{risk}%", delta="- Low Risk" if risk < 35 else "+ High Risk", delta_color="inverse")
             
-            st.markdown("---")
+            st.markdown("<br>", unsafe_allow_html=True)
             
             # AI Advisory Recommendation Block
-            st.markdown("### 📝 AI Advisory Recommendation")
+            st.markdown("<h3 style='color: #1e1114;'>📝 AI Advisory Recommendation</h3>", unsafe_allow_html=True)
+            
+            # Request and unpack our structured elements out of the API function
+            ai_text_output, ai_pro_tip = generate_ai_advice(score, risk, u1_usage, u2_swipe)
+            
             if score >= 65:
-                st.success(f"**Analysis Result:** Based on the final optimized framework, the duo shows strong alignment. User 2's engagement matches User 1's profile depth.")
+                st.success(f"**Analysis Result:** {ai_text_output}")
             else:
-                st.warning(f"**Analysis Result:** Based on the final optimized framework, the matching metrics show some divergence. Profile adjustments are recommended.")
-            st.info("💡 **Pro-Tip:** Try sending a message about a specific detail in their bio to reduce ghosting risk by an estimated 12%.")
+                st.warning(f"**Analysis Result:** {ai_text_output}")
+                
+            # Displays the custom generated pro-tip from your JSON payload block
+            st.info(f"💡 **Pro-Tip:** {ai_pro_tip}")
     else:
         st.error("Model pipeline could not be initialized. Please check your local files.")
