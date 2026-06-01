@@ -1,8 +1,7 @@
-streamlit==1.35.0
+streamlit
 pandas
-numpy==1.25.2
+numpy
 joblib
 scikit-learn
 xgboost
 flaml
-scikeras
