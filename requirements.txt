@@ -5,5 +5,4 @@ joblib
 scikit-learn
 xgboost
 flaml
-tensorflow-cpu==2.15.0
-keras==2.15.0
+scikeras
