@@ -1,7 +1,9 @@
 streamlit
 pandas
+numpy
 joblib
 scikit-learn
-numpy
-flaml
 xgboost
+flaml
+tensorflow
+keras
