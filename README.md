@@ -80,9 +80,11 @@ DuoDevotion is an advanced, data-driven relationship analytics web application b
 
 ## 🚀 Key Architectural Features
 
-* **Deterministic Machine Learning Execution**: Driven by a robust, optimized pipeline model (`final_pipeline.pkl`) engineered via **FLAML** and **XGBoost** to extract predictive insights from relationship dynamics.
+## 🚀 Key Architectural Features
+
+* **Advanced Stacked Ensemble Execution**: Driven by a robust, multi-algorithm ensemble pipeline (`final_pipeline.pkl`) that aggregates predictions from multiple underlying base estimators to ensure steady, high-accuracy scoring.
+* **Benchmarked via FLAML**: The ensemble architecture configuration was automatically selected and optimized after extensive algorithmic benchmarking using the FLAML (Fast Lightweight AutoML) training framework.
 * **Production-Grade Fail-Safe Fallbacks**: Features a custom-engineered mathematical engine designed to mimic the machine learning model array outputs seamlessly, providing complete platform resilience during detached binary state conditions.
-* **Structured JSON Payload Handshakes**: Integrates with **Google Gemini 2.5 Flash** using strict programmatic JSON formatting constraints. This enforces reliable text parsing, completely mitigating presentation crashes and formatting errors.
 * **Context-Driven Actionable Pro-Tips**: Dynamically segments relationship metrics to deliver tailored, hyper-focused behavioral improvements and optimization strategies.
 * **Premium UX/UI Styling Layer**: Formatted entirely with embedded CSS styles, featuring glowing KPI cards, warning banners, and translucent glassmorphism text blocks for a premium presentation.
 
@@ -101,12 +103,12 @@ The application accepts and translates user interaction records into predictive 
 
 ## 🛠️ Tech Stack & Dependencies
 
-* **User Interface Engine**: [Streamlit](https://streamlit.io/) (Interactive sliders, state managers, custom CSS rendering)
-* **Predictive ML Framework**: `scikit-learn`, `xgboost`
-* **AutoML Hyperparameter Optimization**: `flaml` (Fast Lightweight AutoML)
-* **Generative Intelligence Engine**: Official [Google Generative AI SDK](https://ai.google.dev/) (`gemini-2.5-flash`)
-* **Serialization & Model Unpacking**: `joblib`
-* **Data Core Processing**: `numpy`, `pandas`
+## 🛠️ Tech Stack & Dependencies
+
+* **Core Production Model**: Custom Stacked Ensemble Pipeline (Serialized via `joblib`)
+* **Training & Benchmarking Framework**: `flaml` (Used in the experimentation phase to optimize model weights)
+* **Underlying Algorithmic Estimators**: `scikit-learn`, `xgboost`
+* **User Interface Engine**: [Streamlit](https://streamlit.io/)
 
 ---
 
