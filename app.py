@@ -193,9 +193,9 @@ with st.sidebar:
     
     st.subheader("🔬 Model Specifications")
     st.markdown("""
-    * **Engine:** FLAML Automated Ensemble Framework
-    * **Calculations:** Multi-feature deep stacking pipeline
-    * **Status:** Live & Integrated
+    * **Engine:** Stacked Ensemble Pipeline
+    * **Calculations:** Multi-Algorithmic Meta-Learning
+    * **Status:** Live & Deployed
     """)
     st.success("🤖 Core ML Brain Active")
 
